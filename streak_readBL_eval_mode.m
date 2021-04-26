@@ -1,4 +1,4 @@
-function [xw,q,yp,energy,beta,x] = streak_readBL_no_opt(xf,x0,beta,F,if_plot,N,q0,y0)
+function [xw,q,yp,energy,beta,x] = streak_readBL_eval_mode(xf,x0,beta,F,N,q0,ymax,ymid)
 addpath('./streak_script')
 %
 % streak.m is the main program for solving the Linearized Boundary Laayer equations
@@ -55,17 +55,6 @@ FDorder='first';   % order of backward Euler discretization scheme (can be 'firs
 
 %[y,D1,D2,W] = chebmat(N,ymax);
 
-if beta>=1100
-    ymax = 1*max(yin);
-    ymid = 0.3*ymax;
-elseif beta<=100
-    ymax = 12*max(yin);
-    ymid = 0.2*ymax;
-else
-    ymax = 3*max(yin);
-    ymid = 0.3*ymax;
-end
-ymax= max(y0);
 [y,D1,D2,W] = chebmat_trans(N,ymax,ymid);
 yp = y;
 % u1 = interp1(y0,q0(1:N,1),y);
@@ -109,15 +98,6 @@ Nstation=length(x);       % Number of x-stations
 
 disp(['x0= ',num2str(x(1)),'   xf= ',num2str(x(end))]);
 
-
-%% --------------------------------------------------------------------------
-% Perturbation parameters
-% if if_blasius
-% 	%beta_blasius=0.45; % Spanwise wavenumber based on the Blasius lengthscale at xf
-% 	beta_scale=sqrt(Re*U(end).u(1)/x(end));
-% 	beta= beta_blasius*beta_scale;  % Spanwise wavenumber based on the lengthscale used in the meanflow
-% end
-%F=0;           % Reduced frequency
 omega=F*2*pi;    % Angular frequency
 
 
@@ -132,59 +112,9 @@ E0=0.5*q0(1:3*N)'*blkdiag(W,W,W)*q0(1:3*N);
 Ef0=0.5*q(1:3*N,Nstation)'*blkdiag(W,W,W)*q(1:3*N,Nstation); % energ at xf
 dE=1.0;
 fprintf('\n\n E/E0= %f\n',Ef0);
-
-%% --------------------------------------------------------------------------
-% Integrate state and adjoint equations untill convergence reached
-
-% while dE>1e-3
-%     % Initial condition for adjoint quantities
-%     qf=q(:,Nstation);
-%     qadjN=[qf(1:N); qf(1:N)*0; qf(N+1:2*N)*0; qf(2*N+1:3*N)*0];
-%     
-%     [qadj] = integrateLBL_adj(qadjN, x, y, U, metric, D1, D2, beta, omega, Re, Nstation, FDorder);
-%     
-%     % Initial condition for state quantities
-%     U1=U(1); qadj1=qadj(:,1);
-%     
-%     q0 = [qadj1(N+1:2*N).*U1.u*0;  qadj1(2*N+1:3*N).*U1.u; qadj1(3*N+1:4*N).*U1.u; qadj1(1:N)*0;];
-%     
-%     E0 = 0.5*q0(1:3*N)'*blkdiag(W,W,W)*q0(1:3*N);
-%     q0 = q0/sqrt(E0); % normalize the energy at x=x_0
-%     
-%     [q] = integrateLBL(q0, x, y, U, metric, D1, D2, beta, omega, Re, Nstation, FDorder);
-%     
-%     Ef=abs(0.5*q(1:3*N,Nstation)'*blkdiag(W,W,W)*q(1:3*N,Nstation)); % energ at xf
-%     
-%     dE=abs(Ef-Ef0)/Ef0;
-%     Ef0=Ef;
-%     fprintf('\n\n E/E0= %f\t dE/E= %f\n',Ef,dE);
-% end
-
-%% --------------------------------------------------------------------------
-% Compute amplitude
 energy=zeros(size(x));
 for k=1:length(x)
     energy(k)=abs(0.5*q(1:3*N,k)'*blkdiag(W,W,W)*q(1:3*N,k));
 end
-
-if if_plot
-	figure(111)
-	plot(x,energy)
-	ylabel('E/E_0')
-	xlabel('x')
-	q = q;
-	%%
-	% Plot amplitude functions
-	figure(222)
-	plot(abs(q(1:N,1)),y,abs(q(N+1:N*2,1)),y,'r-',abs(q(2*N+1:N*3,1)),y,'r--')
-	legend('abs(u)','abs(v)','abs(w)')
-	title('Optimal initial perturbations')
-	
-	figure(333)
-	plot(abs(q(1:N,end)),y,abs(q(N+1:N*2,end)),y,'r-',abs(q(2*N+1:N*3,end)),y,'r--')
-	legend('abs(u)','abs(v)','abs(w)')
-	title('optimal response')
-end
-%%
 
 end
