@@ -4,9 +4,7 @@ ft = L.ft*2*pi;
 fz = L.fz*2*pi;
 modes = L.mo;
 
-beta = -1*2*pi/0.02;
-freq = 15/(2*pi);
-xfvec = [0.1];linspace(0.03,0.33,10);
+xfvec = linspace(0.03,0.33,30);
 N =150;
 q0=zeros(4*N,1)+1;
 
@@ -20,13 +18,14 @@ for i=1:length(modes)
 
         q0 = q1(:,1);
         [xwj,qj,y_optj,Enj,bbb2,xarc2] = streak_readBL_no_opt(0.34,0.005,beta,freq,0,N,q0,y_opt1);
-        xw{i,j} = xwj;
-        q{i,j} = qj;
-        En{i,j} = Enj;
-        y_opt{i,j} = y_optj;
+        xw{j} = xwj;
+        q{j} = qj;
+        En{j} = Enj;
+        y_opt{j} = y_optj;
 
     end
+    save(['opt_mode',num2str(i),'_difx.mat'],'xw','q','En','y_opt');
 end
-save(['opt_modessL_difx.mat'],'xw','q','En','y_opt');
+
 
 
