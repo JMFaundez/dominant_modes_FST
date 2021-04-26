@@ -1,4 +1,4 @@
-function [xw,q,yp,energy,beta,x] = streak_readBL_no_opt(xf,x0,beta,F,if_plot,N,q0 ,y0)
+function [xw,q,yp,energy,beta,x] = streak_readBL_no_opt(xf,x0,beta,F,if_plot,N,q0,y0)
 addpath('./streak_script')
 %
 % streak.m is the main program for solving the Linearized Boundary Laayer equations
@@ -68,12 +68,12 @@ end
 ymax= max(y0);
 [y,D1,D2,W] = chebmat_trans(N,ymax,ymid);
 yp = y;
-u1 = interp1(y0,q0(1:N,1),y);
-v1 = interp1(y0,q0(N+1:2*N,1),y);
-w1 = interp1(y0,q0(2*N+1:3*N,1),y);
-q0(1:N,1) = u1;
-q0(N+1:2*N,1) = v1;
-q0(2*N+1:3*N,1) = w1;
+% u1 = interp1(y0,q0(1:N,1),y);
+% v1 = interp1(y0,q0(N+1:2*N,1),y);
+% w1 = interp1(y0,q0(2*N+1:3*N,1),y);
+% q0(1:N,1) = u1;
+% q0(N+1:2*N,1) = v1;
+% q0(2*N+1:3*N,1) = w1;
 %% --------------------------------------------------------------------------
 % Interpolate meanflow
 
