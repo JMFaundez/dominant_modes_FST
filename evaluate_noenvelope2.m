@@ -4,9 +4,7 @@ ft = L.ft*2*pi;
 fz = L.fz*2*pi;
 modes = L.mo;
 
-beta = -1*2*pi/0.02;
-freq = 15/(2*pi);
-xfvec = [0.1];linspace(0.03,0.33,10);
+xfvec = linspace(0.03,0.33,30);
 N =150;
 q0=zeros(4*N,1)+1;
 
