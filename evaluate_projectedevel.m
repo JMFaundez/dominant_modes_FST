@@ -28,7 +28,7 @@ xind = find(x>=0.005,1,'first');
 
 %%
 count =0;
-for i =8:8
+for i =4:4
     count = count +1;
 N = length(n);
 q0=zeros(4*N,1);
@@ -86,6 +86,9 @@ hold on
 plot(abs(q(1:N,1)),yop)
 plot(abs(q(N+1:2*N,1)),yop)
 plot(abs(q(2*N+1:3*N,1)),yop)
+legend('|u|','|v|','|w|')
+box on
+grid on
 ylim([0,0.01])
 
 [uhmax,inn] = max(abs(u0));
@@ -96,7 +99,6 @@ figure()
 plot(xdth,nratio)
 xlim([0.005,0.35])
 
-plot(xdth,dth)
 
 
 

@@ -5,7 +5,7 @@ make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.05 0.04],[0.12 0.05], [0.05 0.02]);
 if ~make_it_tight, clear subplot;end
 
-L = load('dominant_modes_05_sL.mat');
+L = load('dominant_modes_05_lL.mat');
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -14,12 +14,31 @@ n = L.N(1,:,1);
 ft = L.ft*2*pi;
 fz = L.fz*2*pi;
 modes = L.mo;
+
+
 dth = L.dth; 
 xdth = L.xa;
 
+[x0dth, inx0] = min(abs(xdth));
+xdth = xdth(inx0:end);
+dth = real(dth(inx0:end));
+
+dthin = interp1(xdth,real(dth),x,'pchip');
+figure(200)
+XX = squeeze(L.X(:,:,1));
+NN = squeeze(L.N(:,:,1));
+Var = abs(uh{1});
+pcolor(XX,NN,Var)
+hold on
+plot(x,3*dthin,'k--')
+plot(xdth,3*dth,'r--')
+view(2)
+shading interp
+
+
 ny = length(n);
 nx = length(x);
-
+%%
 xfvec = linspace(0.03,0.33,30);
 colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
 
@@ -34,13 +53,7 @@ fig4.Position = [500 500 900 400];
 hold on
 count = 0;
 
-qto = {};
-qdns = {};
-uto = {};
-tyo = {};
-xto = {};
-
-for i=5:8
+for i=1:4
     count = count+1;
 xff = 0.005;
 xi = find(x>=xff,1,'first');
@@ -52,15 +65,9 @@ vi = squeeze(vh{i}(xi,:));
 wi = squeeze(wh{i}(xi,:));
 
 
-vk = vi;
-wk = wi;
-uk = ui;
-O = load(['opt_mode',num2str(i),'_difx.mat']);
+O = load(['optw_mode',num2str(i),'_difx.mat']);
 Edifv = zeros(size(xfvec));
-ifplot = 1;
-vpold = vi*0;
-wpold = wi*0;
-Vtot = zeros(length(n),2,length(xfvec));
+
 
 uenvo = 0*O.xw{1};
 
@@ -91,7 +98,8 @@ scl = abs(a);
 Ei = 0.5*((abs(vi)).^2+(abs(wi)).^2);
 
 [Emax,nEpmax] = max(Eo);
-nEp0 = find(Eo(nEpmax:end)<1e-5*max(Eo),1,'first') + nEpmax;
+nEp0 = find(Eo(nEpmax:end)<1e-4*max(Eo),1,'first');
+nEp0 = nEp0 + nEpmax;
 
 
 errorE(k) = abs(a).^2/trapz(n(1:nEp0),Ei(1:nEp0));
@@ -151,7 +159,7 @@ umax = zeros(nx,1);
 for j=1:nx
     dthi = interp1(xdth,dth,x(j));
     if isnan(dthi)
-        dthi=0;
+        dthi=0
     end
     nind = find(n>=3*dthi,1,'first');
     umax(j) = sqrt(1)*max(abs(squeeze(uh{i}(j,1:nind))));

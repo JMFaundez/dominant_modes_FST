@@ -5,7 +5,7 @@ make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.05 0.04],[0.12 0.05], [0.05 0.02]);
 if ~make_it_tight, clear subplot;end
 
-L = load('dominant_modes_05_sL.mat');
+L = load('dominant_modes_05_lL.mat');
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -14,12 +14,29 @@ n = L.N(1,:,1);
 ft = L.ft*2*pi;
 fz = L.fz*2*pi;
 modes = L.mo;
+
+
 dth = L.dth; 
 xdth = L.xa;
 
+[x0dth, inx0] = 
+
+dthin = interp1(xdth,real(dth),x,'pchip');
+figure(200)
+XX = squeeze(L.X(:,:,1));
+NN = squeeze(L.N(:,:,1));
+Var = abs(uh{1});
+pcolor(XX,NN,Var)
+hold on
+plot(x,3*dthin,'k--')
+plot(xdth,3*dth,'r--')
+view(2)
+shading interp
+
+
 ny = length(n);
 nx = length(x);
-
+%%
 xfvec = linspace(0.03,0.33,30);
 colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
 
@@ -40,7 +57,7 @@ uto = {};
 tyo = {};
 xto = {};
 
-for i=5:8
+for i=1:4
     count = count+1;
 xff = 0.005;
 xi = find(x>=xff,1,'first');
@@ -55,11 +72,9 @@ wi = squeeze(wh{i}(xi,:));
 vk = vi;
 wk = wi;
 uk = ui;
-O = load(['opt_mode',num2str(i),'_difx.mat']);
+O = load(['optw_mode',num2str(i),'_difx.mat']);
 Edifv = zeros(size(xfvec));
-ifplot = 1;
-vpold = vi*0;
-wpold = wi*0;
+
 Vtot = zeros(length(n),2,length(xfvec));
 
 uenvo = 0*O.xw{1};
@@ -133,11 +148,11 @@ if k==ki(i)%length(xfvec)
     figure(4)
     subplot(1,2,2)
     hold on
-    plot(O.xw{k},qmax2*scl,'-','Color',colr(count,:),'LineWidth',1.5)
+    plot(O.xw{k},qmax2*scl,'--','Color',colr(count,:),'LineWidth',1.5)
     xlabel('$x$','Interpreter','latex','FontSize',16)
     ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
     xlim([0,0.33])
-    ylim([0,2.5e-3])
+    ylim([0,3e-3])
     box on
     grid on
 end
@@ -151,7 +166,7 @@ umax = zeros(nx,1);
 for j=1:nx
     dthi = interp1(xdth,dth,x(j));
     if isnan(dthi)
-        dthi=0;
+        dthi=0
     end
     nind = find(n>=3*dthi,1,'first');
     umax(j) = sqrt(1)*max(abs(squeeze(uh{i}(j,1:nind))));
@@ -159,8 +174,12 @@ end
 
 
 figure(6)
-plot(xfvec,Edifv)
+plot(xfvec,Edifv,'-*')
 hold on
+box on
+grid on
+xlabel('$x_f$','Interpreter','latex','FontSize',14)
+ylabel('$|a|^2$','Interpreter','latex','FontSize',14)
 
 figure(1)
 subplot(1,4,count)
@@ -179,7 +198,7 @@ figure(2)
 hold on
 plot(xfvec,errorE,'*-','Color',colr(count,:))
 xlabel('$x_f$','Interpreter','latex','FontSize',14)
-ylabel('$E_{proj}/E_{dns}$','Interpreter','latex','FontSize',14)
+ylabel('$|a|^2/E_{dns}$','Interpreter','latex','FontSize',14)
 box on
 grid on
 %plot(xfvec,Edifv,'<-','Color',colr(count,:))
@@ -194,6 +213,7 @@ lableg(count) = l1;
 xlabel('$x$','Interpreter','latex','FontSize',16)
 ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
 xlim([0,0.33])
+ylim([0,3e-3])
 box on
 grid on
 legend(lableg)
