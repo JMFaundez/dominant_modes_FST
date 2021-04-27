@@ -27,7 +27,9 @@ xind = find(x>=0.005,1,'first');
 
 
 %%
-i = 4;
+count =0;
+for i =8:8
+    count = count +1;
 N = length(n);
 q0=zeros(4*N,1);
 u0 = squeeze(uh{i}(xind,:)).*S*1;
@@ -38,9 +40,14 @@ q0(N+1:2*N,1) = flip(v0);
 q0(2*N+1:3*N,1) = flip(w0);
 mi = modes{i};
 beta = fz(mi(1));
-freq = ft(mi(2))/(2*pi);
+freq = -ft(mi(2))/(2*pi);
+[xw,q,y_opt,En,bbb2,xarc2] = streak_readBL_eval_mode(0.34,xi,beta,freq,N,q0,max(n),ymid);
 
-[xw,q,y_opt,En,bbb2,xarc2] = streak_readBL_eval_mode(0.34,0.005,beta,freq,N,q0,max(n),ymid);
+q0(1:N,1) = flip(u0)*0;
+q0(N+1:2*N,1) = flip(v0);
+q0(2*N+1:3*N,1) = flip(w0);
+[xw2,q2,y_opt2,En,bbb2,xarc2] = streak_readBL_eval_mode(0.34,xi,beta,freq,N,q0,max(n),ymid);
+
 
 %%
 
@@ -55,28 +62,42 @@ end
 
 [nn,Nstations] = size(q);
 maxop = max(abs(q(1:N,:)),[],1);
+maxop2 = max(abs(q2(1:N,:)),[],1);
 
-figure()
+%%
+figure(100)
+%subplot(1,4,count)
 hold on
 plot(x(2:end),umax,'Color',colr(i,:),'LineWidth',1.5)
-plot(xw,maxop,'Color',[0.5,0.5,0.5])
+plot(xw,maxop,'Color','k');%[0.5,0.5,0.5])
+plot(xw,maxop2,'--','Color','k')%[0.5,0.5,0.5])
 xlabel('$x$','Interpreter','latex','FontSize',16)
 ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
 box on
 grid on
 xlim([0,0.33])
 
-
+end
 %%
 
+yop = y_opt;
+figure()
+hold on
+plot(abs(q(1:N,1)),yop)
+plot(abs(q(N+1:2*N,1)),yop)
+plot(abs(q(2*N+1:3*N,1)),yop)
+ylim([0,0.01])
 
-% yop = y_opt;
-% figure()
-% hold on
-% plot(abs(q(1:N,1)),yop)
-% plot(abs(q(N+1:2*N,1)),yop)
-% plot(abs(q(2*N+1:3*N,1)),yop)
-%ylim([0,0.01])
+[uhmax,inn] = max(abs(u0));
+nmax = n(inn);
+nratio =nmax./real(dth);
+nratio(isnan(nratio))=0;
+figure()
+plot(xdth,nratio)
+xlim([0.005,0.35])
+
+plot(xdth,dth)
+
 
 
 
