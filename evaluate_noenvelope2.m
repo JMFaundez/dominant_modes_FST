@@ -1,5 +1,5 @@
 clear all
-L = load('dominant_modes_05_sL.mat');
+L = load('dominant_modes_05_lL.mat');
 ft = L.ft*2*pi;
 fz = L.fz*2*pi;
 modes = L.mo;
@@ -24,7 +24,7 @@ for i=1:length(modes)
         y_opt{j} = y_optj;
 
     end
-    save(['opt_mode',num2str(i),'_difx.mat'],'xw','q','En','y_opt');
+    save(['optw_mode',num2str(i),'_difx.mat'],'xw','q','En','y_opt');
 end
 
 
