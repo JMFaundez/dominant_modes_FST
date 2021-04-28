@@ -66,6 +66,7 @@ else
     ymid = 0.3*ymax;
 end
 ymax= max(y0);
+ymid = 0.2*ymax;
 [y,D1,D2,W] = chebmat_trans(N,ymax,ymid);
 yp = y;
 % u1 = interp1(y0,q0(1:N,1),y);

@@ -65,7 +65,7 @@ else
     ymax = 3*max(yin);
     ymid = 0.3*ymax;
 end
-ymax = 0.09;
+ymax = 0.08;
 if abs(beta)<100
     ymax = 0.11;
 end
