@@ -1,11 +1,11 @@
 clear all
-
+%close all
 figure()
 
 j = 0;
-for i =1:4
+for i=1:4
     j=j+1;
-    O = load(['optw_mode',num2str(i),'_difx.mat']);
+    O = load(['opt_mode',num2str(i),'_difx.mat']);
 for k=1:30
 
 % Opt

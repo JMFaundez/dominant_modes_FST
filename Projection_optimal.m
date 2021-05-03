@@ -1,5 +1,5 @@
 clear all
-close all
+%close all
 addpath('./matlab_script')
 make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.05 0.04],[0.12 0.05], [0.05 0.02]);
@@ -23,17 +23,17 @@ xdth = L.xa;
 xdth = xdth(inx0:end);
 dth = real(dth(inx0:end));
 
-dthin = interp1(xdth,real(dth),x,'pchip');
-figure(200)
-XX = squeeze(L.X(:,:,1));
-NN = squeeze(L.N(:,:,1));
-Var = abs(uh{1});
-pcolor(XX,NN,Var)
-hold on
-plot(x,3*dthin,'k--')
-plot(xdth,3*dth,'r--')
-view(2)
-shading interp
+% dthin = interp1(xdth,real(dth),x,'pchip');
+% figure(200)
+% XX = squeeze(L.X(:,:,1));
+% NN = squeeze(L.N(:,:,1));
+% Var = abs(uh{1});
+% pcolor(XX,NN,Var)
+% hold on
+% plot(x,3*dthin,'k--')
+% plot(xdth,3*dth,'r--')
+% view(2)
+% shading interp
 
 
 ny = length(n);
@@ -45,15 +45,15 @@ colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4
 
 ki = [length(xfvec),3,5,2,11,3,length(xfvec),length(xfvec)];
 clear lableg
-fig1 = figure(1);
+fig1 = figure(100);
 fig1.Position = [500 500 1600 400];
-figure(2)
-fig4 = figure(4);
-fig4.Position = [500 500 900 400];
+figure(200)
+fig4 = figure(400);
+fig4.Position = [500 500 600 400];
 hold on
 count = 0;
 
-for i=1:4
+for i=5:8
     count = count+1;
 xff = 0.005;
 xi = find(x>=xff,1,'first');
@@ -120,7 +120,7 @@ for j=1:length(uenvo)
     end
 end
 
-figure(1)
+figure(100)
 subplot(1,4,count)
 hold on
 plot(O.xw{k},qmax2*scl,'-','Color',[0.5 0.5 0.5])
@@ -138,16 +138,16 @@ end
 
 if k==ki(i)%length(xfvec)
     %plot(O.xw{k},qmax2*scl,'--','Color',colr(count,:),'LineWidth',2)
-    figure(4)
-    subplot(1,2,2)
-    hold on
-    plot(O.xw{k},qmax2*scl,'--','Color',colr(count,:),'LineWidth',1.5)
-    xlabel('$x$','Interpreter','latex','FontSize',16)
-    ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
-    xlim([0,0.33])
-    ylim([0,3e-3])
-    box on
-    grid on
+    %figure(4)
+    %subplot(1,2,2)
+    %hold on
+    %plot(O.xw{k},qmax2*scl,'--','Color',colr(count,:),'LineWidth',1.5)
+    %xlabel('$x$','Interpreter','latex','FontSize',16)
+    %ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
+    %xlim([0,0.33])
+    %ylim([0,3e-3])
+    %box on
+    %grid on
 end
 
 
@@ -166,7 +166,7 @@ for j=1:nx
 end
 
 
-figure(6)
+figure(600)
 plot(xfvec,Edifv,'-*')
 hold on
 box on
@@ -174,7 +174,7 @@ grid on
 xlabel('$x_f$','Interpreter','latex','FontSize',14)
 ylabel('$|a|^2$','Interpreter','latex','FontSize',14)
 
-figure(1)
+figure(100)
 subplot(1,4,count)
 plot(x,umax-0*umax(xi),'Color',colr(count,:),'LineWidth',1.5)
 %plot(xenv,uenv,'--','Color',colr(count,:),'LineWidth',1.5)
@@ -187,7 +187,7 @@ ylabel('$u_{max}$','Interpreter','latex','FontSize',14)
 
 
 
-figure(2)
+figure(200)
 hold on
 plot(xfvec,errorE,'*-','Color',colr(count,:))
 xlabel('$x_f$','Interpreter','latex','FontSize',14)
@@ -197,8 +197,8 @@ grid on
 %plot(xfvec,Edifv,'<-','Color',colr(count,:))
 
 
-figure(4)
-subplot(1,2,1)
+figure(400)
+%subplot(1,1,1)
 hold on
 l1 = plot(x,umax-0*umax(xi),'Color',colr(count,:),'LineWidth',1.5,'DisplayName',num2str(i));
 plot(xenv,uenv,'--','Color',colr(count,:),'LineWidth',1.5)
@@ -206,7 +206,7 @@ lableg(count) = l1;
 xlabel('$x$','Interpreter','latex','FontSize',16)
 ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
 xlim([0,0.33])
-ylim([0,3e-3])
+%ylim([0,3e-3])
 box on
 grid on
 legend(lableg)

@@ -10,13 +10,17 @@ fz = L.fz*2*pi;
 modes = L.mo;
 dth = L.dth; 
 xdth = L.xa;
-ymid = 3e-3; % value used to generate dns mesh
-
+[x0dth, inx0] = min(abs(xdth));
+xdth = xdth(inx0:end);
+dth = real(dth(inx0:end));
+ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
+%ymid = 5e-3;
 colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
     [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
 
 % Bending function
-ydm = 0.0145;
+%ydm = 0.045;
+ydm = 0.015;
 ystar = 1-(n-ydm)/(max(n)-ydm);
 S = 1./(1+exp(1./(ystar-1) +1./ystar));
 S(ystar<=0) = 0;
@@ -28,7 +32,7 @@ xind = find(x>=0.005,1,'first');
 
 %%
 count =0;
-for i =4:4
+for i =1:8
     count = count +1;
 N = length(n);
 q0=zeros(4*N,1);
@@ -66,7 +70,7 @@ maxop2 = max(abs(q2(1:N,:)),[],1);
 
 %%
 figure(100)
-%subplot(1,4,count)
+subplot(2,4,count)
 hold on
 plot(x(2:end),umax,'Color',colr(i,:),'LineWidth',1.5)
 plot(xw,maxop,'Color','k');%[0.5,0.5,0.5])
@@ -75,6 +79,7 @@ xlabel('$x$','Interpreter','latex','FontSize',16)
 ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
 box on
 grid on
+title(num2str(i))
 xlim([0,0.33])
 
 end
@@ -86,6 +91,15 @@ hold on
 plot(abs(q(1:N,1)),yop)
 plot(abs(q(N+1:2*N,1)),yop)
 plot(abs(q(2*N+1:3*N,1)),yop)
+legend('|u|','|v|','|w|')
+box on
+grid on
+ylim([0,0.01])
+figure()
+hold on
+plot(angle(q(1:N,1)),yop)
+plot(angle(q(N+1:2*N,1)),yop)
+plot(angle(q(2*N+1:3*N,1)),yop)
 legend('|u|','|v|','|w|')
 box on
 grid on
