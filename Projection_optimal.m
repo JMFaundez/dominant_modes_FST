@@ -53,7 +53,7 @@ fig4.Position = [500 500 600 400];
 hold on
 count = 0;
 
-for i=5:8
+for i=1:4
     count = count+1;
 xff = 0.005;
 xi = find(x>=xff,1,'first');
