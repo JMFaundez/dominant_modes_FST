@@ -4,7 +4,7 @@ ft = L.ft*2*pi;
 fz = L.fz*2*pi;
 modes = L.mo;
 
-xfvec = linspace(0.03,0.33,15);
+xfvec = linspace(0.03,0.33,30);
 N =150;
 q0=zeros(4*N,1)+1;
 
