@@ -67,7 +67,7 @@ else
 end
 ymax = 0.081;
 if abs(beta)<100
-    ymax = 0.11;
+    ymax = 0.22;
 end
 ymid = 0.2*ymax;
 [y,D1,D2,W] = chebmat_trans(N,ymax,ymid);

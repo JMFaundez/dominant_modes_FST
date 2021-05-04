@@ -6,7 +6,7 @@ j = 0;
 for i=1:4
     j=j+1;
     O = load(['opt_mode',num2str(i),'_difx.mat']);
-for k=1:30
+for k=1:15
 
 % Opt
 [nn2,Nstations2] = size(O.q{k});
