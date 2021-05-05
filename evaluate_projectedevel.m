@@ -1,5 +1,5 @@
 clear all
-casen = 1;
+casen = 3;
 
 switch casen
     case 1
@@ -13,7 +13,13 @@ switch casen
         ydm = 0.045;
         ymid = 5e-3;
         xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
-        ymaxp = 6e-3;
+        ymaxp = 5e-3;
+    case 3
+        L = load('dominant_modes_3_sL.mat');
+        ydm = 0.015;
+        ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
+        xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
+        ymaxp = 14e-3;
 end
 uh = L.uh;
 vh = L.vh;
