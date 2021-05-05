@@ -5,7 +5,7 @@ make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.05 0.04],[0.12 0.05], [0.05 0.02]);
 if ~make_it_tight, clear subplot;end
 
-L = load('dominant_modes_05_lL.mat');
+L = load('dominant_modes_05_sL.mat');
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -39,11 +39,11 @@ dth = real(dth(inx0:end));
 ny = length(n);
 nx = length(x);
 %%
-xfvec = linspace(0.03,0.33,30);
+
 colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
 
 
-ki = [length(xfvec),3,5,2,11,3,length(xfvec),length(xfvec)];
+%ki = [length(xfvec),3,5,2,11,3,length(xfvec),length(xfvec)];
 clear lableg
 fig1 = figure(100);
 fig1.Position = [500 500 1600 400];
@@ -55,22 +55,23 @@ count = 0;
 
 for i=1:4
     count = count+1;
-xff = 0.005;
-xi = find(x>=xff,1,'first');
 
+
+
+O = load(['opt2_mode',num2str(i),'_difx.mat']);
+
+xop = O.xw{1};
+xff = xop(1);
+xi = find(x>=xff,1,'first');
+xfvec = linspace(xop(1)*1.5,0.33,30);
 % DNS
 
 ui = squeeze(uh{i}(xi,:));
 vi = squeeze(vh{i}(xi,:));
 wi = squeeze(wh{i}(xi,:));
 
-
-O = load(['optw_mode',num2str(i),'_difx.mat']);
-Edifv = zeros(size(xfvec));
-
-
 uenvo = 0*O.xw{1};
-
+Edifv = zeros(size(xfvec));
 
 for k=1:length(xfvec)
 
@@ -140,7 +141,7 @@ else
     uenv = [uenv;qmax2(xio)*scl];
 end
 
-if k==ki(i)%length(xfvec)
+%if k==ki(i)%length(xfvec)
     %plot(O.xw{k},qmax2*scl,'--','Color',colr(count,:),'LineWidth',2)
     %figure(4)
     %subplot(1,2,2)
@@ -152,8 +153,7 @@ if k==ki(i)%length(xfvec)
     %ylim([0,3e-3])
     %box on
     %grid on
-end
-
+%end
 
 end
 
@@ -163,7 +163,7 @@ umax = zeros(nx,1);
 for j=1:nx
     dthi = interp1(xdth,dth,x(j));
     if isnan(dthi)
-        dthi=0
+        dthi=0;
     end
     nind = find(n>=3*dthi,1,'first');
     umax(j) = sqrt(1)*max(abs(squeeze(uh{i}(j,1:nind))));
