@@ -1,5 +1,5 @@
 clear all
-L = load('dominant_modes_05_sL.mat');
+L = load('dominant_modes_05_lL.mat');
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -13,27 +13,28 @@ xdth = L.xa;
 [x0dth, inx0] = min(abs(xdth));
 xdth = xdth(inx0:end);
 dth = real(dth(inx0:end));
-ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
-%ymid = 5e-3;
+%ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
+ymid = 5e-3;
 colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
     [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
 
 % Bending function
-%ydm = 0.045;
-ydm = 0.015;
+ydm = 0.045;
+%ydm = 0.015;
 ystar = 1-(n-ydm)/(max(n)-ydm);
 S = 1./(1+exp(1./(ystar-1) +1./ystar));
 S(ystar<=0) = 0;
 S(ystar>=1)=1;
 
-%xi = 0.005;
-xind = find(x>=0.005,1,'first');
-xi = x(xind);
+xiv =[0.04,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
+%xiv =[0.01,0.015,0.025,0.02,0.01,0.025,0.02,0.025]; % small L
 
 %%
 count =0;
-for i =1:8
+for i =[1:8]
     count = count +1;
+    xind = find(x>=xiv(i),1,'first');
+xi = x(xind);
 N = length(n);
 q0=zeros(4*N,1);
 u0 = squeeze(uh{i}(xind,:)).*S*1;
@@ -91,7 +92,7 @@ box on
 grid on
 title(num2str(i))
 xlim([0,0.33])
-ylim([0,3e-3])
+ylim([0,6e-3])
 
 
 yop = y_opt;
@@ -128,37 +129,37 @@ title(num2str(i))
 end
 %%
 
-yop = y_opt;
-figure()
-hold on
-plot(abs(q(1:N,1)),yop)
-plot(abs(q(N+1:2*N,1)),yop)
-plot(abs(q(2*N+1:3*N,1)),yop)
-legend('|u|','|v|','|w|')
-box on
-grid on
-ylim([0,0.01])
-figure()
-hold on
-plot(angle(q(1:N,1)),yop)
-plot(angle(q(N+1:2*N,1)),yop)
-plot(angle(q(2*N+1:3*N,1)),yop)
-legend('|u|','|v|','|w|')
-box on
-grid on
-ylim([0,0.01])
-
-[uhmax,inn] = max(abs(u0));
-nmax = n(inn);
-nratio =nmax./real(dth);
-nratio(isnan(nratio))=0;
-figure()
-plot(xdth,nratio)
-xlim([0.005,0.35])
-
-figure()
-plot(xdth,dth)
-xlim([0.005,0.35])
+% yop = y_opt;
+% figure()
+% hold on
+% plot(abs(q(1:N,1)),yop)
+% plot(abs(q(N+1:2*N,1)),yop)
+% plot(abs(q(2*N+1:3*N,1)),yop)
+% legend('|u|','|v|','|w|')
+% box on
+% grid on
+% ylim([0,0.01])
+% figure()
+% hold on
+% plot(angle(q(1:N,1)),yop)
+% plot(angle(q(N+1:2*N,1)),yop)
+% plot(angle(q(2*N+1:3*N,1)),yop)
+% legend('|u|','|v|','|w|')
+% box on
+% grid on
+% ylim([0,0.01])
+% 
+% [uhmax,inn] = max(abs(u0));
+% nmax = n(inn);
+% nratio =nmax./real(dth);
+% nratio(isnan(nratio))=0;
+% figure()
+% plot(xdth,nratio)
+% xlim([0.005,0.35])
+% 
+% figure()
+% plot(xdth,dth)
+% xlim([0.005,0.35])
 
 
 

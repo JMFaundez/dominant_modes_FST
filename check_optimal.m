@@ -3,9 +3,9 @@ clear all
 
 
 j = 0;
-for i=5:8
+for i=1:4
     j=j+1;
-    O = load(['opt_mode',num2str(i),'_difx.mat']);
+    O = load(['optw_mode',num2str(i),'_difx.mat']);
 for k=1:15
 
 % Opt

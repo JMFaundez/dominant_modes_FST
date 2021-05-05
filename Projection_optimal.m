@@ -5,7 +5,7 @@ make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.05 0.04],[0.12 0.05], [0.05 0.02]);
 if ~make_it_tight, clear subplot;end
 
-L = load('dominant_modes_05_sL.mat');
+L = load('dominant_modes_05_lL.mat');
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -65,7 +65,7 @@ vi = squeeze(vh{i}(xi,:));
 wi = squeeze(wh{i}(xi,:));
 
 
-O = load(['opt_mode',num2str(i),'_difx.mat']);
+O = load(['optw_mode',num2str(i),'_difx.mat']);
 Edifv = zeros(size(xfvec));
 
 
@@ -95,13 +95,17 @@ a = 0.5*trapz(n,aint);
 Eo =0.5*(abs(vo).^2+abs(wo).^2);
 
 scl = abs(a);
-Ei = 0.5*(abs(ui).^2);0.5*((abs(vi)).^2+(abs(wi)).^2);
+%Ei = 0.5*(abs(ui).^2);
+Ei = 0.5*((abs(vi)).^2+(abs(wi)).^2);
+
+
 
 [Emax,nEpmax] = max(Eo);
 nEp0 = find(Eo(nEpmax:end)<1e-5*max(Eo),1,'first');
 nEp0 = nEp0 + nEpmax;
-
-
+dthi = interp1(xdth,dth,xff);
+nind = find(n>=3*dthi,1,'first');
+%nEp0 =nind;
 errorE(k) = abs(a).^2/trapz(n(1:nEp0),Ei(1:nEp0));
 qmax2 = zeros(Nstations2,1);
 for j=1:Nstations2

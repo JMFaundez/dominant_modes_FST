@@ -5,7 +5,7 @@ make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.05 0.04],[0.12 0.05], [0.05 0.02]);
 if ~make_it_tight, clear subplot;end
 
-L = load('dominant_modes_05_sL.mat');
+L = load('dominant_modes_05_lL.mat');
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -46,7 +46,7 @@ v = transpose(vi)*exp(1j*beta*z + 1j*omega*tf);
 w = transpose(wi)*exp(1j*beta*z + 1j*omega*tf);
 
 yf = 0.006;
-Nr = 30; 
+Nr = 60; 
 zstart = linspace(min(z),max(z),Nr);max(z)*rand(Nr,1); 
 nstart = yf*ones(size(zstart));max(n)*rand(Nr,1); 
 [Z,N] = meshgrid(z,n); 
@@ -59,8 +59,8 @@ vs = Xs*0;
 ws(:,:,1) = real(w);
 vs(:,:,1) = real(v);
 us = ws*10;
-%st = streamline(stream2(Z,N,real(w),real(v),zstart,nstart));
-st = streamslice(Zs,Ns,Xs,ws,vs,us,[],[],[1]);
+st = streamline(stream2(Z,N,real(w),real(v),zstart,nstart));
+%st = streamslice(Zs,Ns,Xs,ws,vs,us,[],[],[1]);
 set(st,'color','k')
 set(st,'LineWidth',1.2)
 %set(st,'AutoScale','on','AutoScaleFactor',0.5)
