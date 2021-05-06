@@ -31,7 +31,7 @@ for i=1:8
 mi = modes{i};
 omega = ft(mi(2));
 beta = fz(mi(1));
-xff = 0.005;
+xff = 0.15;
 xi = find(x>=xff,1,'first');
 
 ui = squeeze(uh{i}(xi,:));

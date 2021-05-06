@@ -1,5 +1,5 @@
 clear all
-casen = 3;
+casen = 2;
 
 switch casen
     case 1
@@ -12,7 +12,7 @@ switch casen
         L = load('dominant_modes_05_lL.mat');
         ydm = 0.045;
         ymid = 5e-3;
-        xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
+        xiv =0.0+1*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
         ymaxp = 5e-3;
     case 3
         L = load('dominant_modes_3_sL.mat');

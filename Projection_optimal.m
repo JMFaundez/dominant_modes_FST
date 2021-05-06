@@ -5,7 +5,7 @@ make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.12 0.05], [0.08 0.04]);
 if ~make_it_tight, clear subplot;end
 
-L = load('dominant_modes_3_sL.mat');
+L = load('dominant_modes_05_sL.mat');
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -62,7 +62,7 @@ for i=1:8
 
 
 
-O = load(['opt_mode',num2str(i),'_difx.mat']);
+O = load(['opt2_mode',num2str(i),'_difx.mat']);
 
 xop = O.xw{1};
 xff = xop(1);
@@ -219,7 +219,7 @@ subplot(1,2,ipp)
 %subplot(1,1,1)
 hold on
 l1 = plot(x,umax-0*umax(xi),'Color',colr(count,:),'LineWidth',1.5,'DisplayName',num2str(i));
-plot(xenv,uenv,'--','Color',colr(count,:),'LineWidth',1.5)
+plot(xenv,uenv,'k--')%,'Color',colr(count,:),'LineWidth',1.5)
 lableg(count) = l1;
 xlabel('$x$','Interpreter','latex','FontSize',16)
 ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
