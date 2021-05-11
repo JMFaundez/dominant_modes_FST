@@ -1,5 +1,5 @@
 clear all
-casen = 3;
+casen = 4;
 
 switch casen
     case 1

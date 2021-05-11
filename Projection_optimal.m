@@ -1,11 +1,36 @@
 clear all
-%close all
+close all
 addpath('./matlab_script')
 make_it_tight = true;
-subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.12 0.05], [0.08 0.04]);
+subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.15 0.08], [0.08 0.04]);
 if ~make_it_tight, clear subplot;end
+casen = 4;
 
-L = load('dominant_modes_05_sL.mat');
+switch casen
+    case 1
+        L = load('dominant_modes_05_sL.mat');
+        ininame = 'opt_mode';
+         ylimp200 = [0,0.25];
+        ylimp300 = [0,2e-10];
+    case 2
+        L = load('dominant_modes_05_lL.mat');
+        ininame = 'optw_mode';
+        ylimp200 = [0,0.2];
+        ylimp300 = [0,6e-10];
+    case 3
+        L = load('dominant_modes_3_sL.mat');
+        ininame = 'opt_mode';
+         ylimp200 = [0,0.25];
+        ylimp300 = [0,6e-9];
+        
+    case 4
+        L = load('dominant_modes_3_lL.mat');
+        ininame = 'optw_mode';
+         ylimp200 = [0,0.3];
+        ylimp300 = [0,3e-8];
+end
+
+
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -47,11 +72,11 @@ colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4
 %ki = [length(xfvec),3,5,2,11,3,length(xfvec),length(xfvec)];
 clear lableg
 fig1 = figure(100);
-fig1.Position = [500 500 1600 600];
+fig1.Position = [500 500 1500 500];
 fig2 = figure(200);
-fig2.Position = [500 500 900 400];
+fig2.Position = [500 500 900 300];
 fig3 = figure(300);
-fig3.Position = [500 500 900 400];
+fig3.Position = [500 500 900 300];
 fig4 = figure(400);
 fig4.Position = [500 500 900 400];
 hold on
@@ -62,7 +87,7 @@ for i=1:8
 
 
 
-O = load(['opt2_mode',num2str(i),'_difx.mat']);
+O = load([ininame,num2str(i),'_difx.mat']);
 
 xop = O.xw{1};
 xff = xop(1);
@@ -101,7 +126,7 @@ Eo =0.5*(abs(vo).^2+abs(wo).^2);
 
 scl = abs(a);
 %Ei = 0.5*(abs(ui).^2);
-Ei = 0.5*((abs(vi)).^2+(abs(wi)).^2);
+Ei = 0.5*(1*abs(ui).^2+1*(abs(vi)).^2+1*(abs(wi)).^2);
 
 
 
@@ -178,15 +203,23 @@ else
     ipp = 2;
 end
 
-figure(300)
-subplot(1,2,ipp)
-plot(xfvec,Edifv,'-*','DisplayName',num2str(i))
+figure(200)
+
+if ipp==1
+    subplot(1,2,1)
+    semilogy(xfvec,Edifv,'-o','DisplayName',num2str(i),'Color',colr(count,:))
+else
+    subplot(1,2,2)
+    semilogy(xfvec,Edifv,'-o','DisplayName',num2str(i),'Color',colr(count,:))
+end
 hold on
 box on
 grid on
 xlabel('$x_f$','Interpreter','latex','FontSize',14)
 ylabel('$|a|^2$','Interpreter','latex','FontSize',14)
 legend()
+ylim(ylimp300)
+xlim([0,0.33])
 
 figure(100)
 subplot(2,4,count)
@@ -202,15 +235,24 @@ ylabel('$u_{max}$','Interpreter','latex','FontSize',14)
 
 
 
-figure(200)
-subplot(1,2,ipp)
+figure(300)
+
+
+if ipp==1
+    subplot(1,2,1)
+ plot(xfvec,errorE,'-o','Color',colr(count,:),'DisplayName',num2str(i))
+else
+    subplot(1,2,2)
+    plot(xfvec,errorE,'-o','Color',colr(count,:),'DisplayName',num2str(i))
+end
 hold on
-plot(xfvec,errorE,'*-','Color',colr(count,:),'DisplayName',num2str(i))
 xlabel('$x_f$','Interpreter','latex','FontSize',14)
 ylabel('$|a|^2/E_{dns}$','Interpreter','latex','FontSize',14)
 box on
 grid on
 legend()
+ylim(ylimp200)
+xlim([0,0.33])
 %plot(xfvec,Edifv,'<-','Color',colr(count,:))
 
 
