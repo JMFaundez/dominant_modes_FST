@@ -1,5 +1,5 @@
 clear all
-casen = 2;
+casen = 3;
 
 switch casen
     case 1
@@ -19,7 +19,25 @@ switch casen
         ydm = 0.015;
         ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
         xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
-        ymaxp = 14e-3;
+        ymaxp = 15e-3;
+    case 4
+        L = load('dominant_modes_3_lL.mat');
+        ydm = 0.045;
+        ymid = 5e-3;
+        xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
+        ymaxp = 18e-3;
+    case 5
+        L = load('dominant_modes_05_sL_N2.mat');
+        ydm = 0.015;
+        ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
+        xiv =0.075+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
+        ymaxp = 3e-3;
+    case 6
+        L = load('dominant_modes_05_sL_N34.mat');
+        ydm = 0.015;
+        ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
+        xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
+        ymaxp = 3e-3;
 end
 uh = L.uh;
 vh = L.vh;
@@ -125,8 +143,8 @@ xlabel('$|u|,|v|,|w|$','Interpreter','latex','FontSize',16)
 ylabel('$n$','Interpreter','latex','FontSize',16)
 box on
 grid on
-ylim([0,0.01])
-xlim([0,1.0]*1e-3)
+ylim([0,0.002])
+xlim([0,3.0]*1e-3)
 title(num2str(i))
 
 figure(300)
