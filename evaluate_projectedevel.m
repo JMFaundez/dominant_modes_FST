@@ -1,19 +1,19 @@
 clear all
-casen = 4;
+casen = 1;
 
 switch casen
     case 1
-        L = load('dominant_modes_05_sL.mat');
+        L = load('dominant_modes_05_sL_hann.mat');
         ydm = 0.015;
         ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
         xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
         ymaxp = 3e-3;
     case 2
-        L = load('dominant_modes_05_lL.mat');
+        L = load('dominant_modes_05_lL_han.mat');
         ydm = 0.045;
         ymid = 5e-3;
-        xiv =0.0+1*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
-        ymaxp = 5e-3;
+        xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
+        ymaxp = 6.5e-3;
     case 3
         L = load('dominant_modes_3_sL.mat');
         ydm = 0.015;
@@ -116,7 +116,7 @@ end
 
 %%
 
-figure(100)
+figure(101)
 subplot(2,4,count)
 hold on
 plot(x(2:end),umax,'Color',colr(i,:),'LineWidth',1.5)
@@ -132,7 +132,7 @@ ylim([0,ymaxp])
 
 
 yop = y_opt;
-figure(200)
+figure(201)
 subplot(2,4,count)
 hold on
 plot(abs(q(1:N,1)),yop,'r')
@@ -147,7 +147,7 @@ ylim([0,0.002])
 xlim([0,3.0]*1e-3)
 title(num2str(i))
 
-figure(300)
+figure(301)
 subplot(2,4,count)
 hold on
 plot(wrapTo2Pi(angle(q(1:N,1))),yop,'r')
