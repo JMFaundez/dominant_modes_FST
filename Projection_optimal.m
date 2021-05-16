@@ -4,7 +4,7 @@ addpath('./matlab_script')
 make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.15 0.08], [0.08 0.04]);
 if ~make_it_tight, clear subplot;end
-casen = 1;
+casen = 2;
 
 switch casen
     case 1
