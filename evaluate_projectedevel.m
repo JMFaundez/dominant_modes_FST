@@ -1,9 +1,9 @@
 clear all
-casen = 2;
+casen = 1;
 
 switch casen
     case 1
-        L = load('dominant_modes_05_sL_hann.mat');
+        L = load('dominant_modes_05_sL_hann_N34.mat');
         ydm = 0.015;
         ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
         xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
