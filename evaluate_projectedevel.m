@@ -10,7 +10,7 @@ switch casen
         ymaxp = 3e-3;
         maxvp=1e-3;
     case 2
-        L = load('dominant_modes_05_lL_han.mat');
+        L = load('dominant_modes_05_lL_han_N2.mat');
         ydm = 0.045;
         ymid = 5e-3;
         xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
@@ -73,7 +73,7 @@ S(ystar>=1)=1;
 
 %%
 count =0;
-for i =[5:5]
+for i =[1:8]
     count= count +1;
     xind = find(x>=xiv(i),1,'first');
 xi = x(xind);
@@ -127,7 +127,7 @@ subplot(2,4,count)
 hold on
 plot(x(2:end),umax,'Color',colr(i,:),'LineWidth',1.5)
 plot(xw,maxop,'Color','k');%[0.5,0.5,0.5])
-plot(xw,maxop2,'-.','Color',[0.5,0.5,0.5])
+plot(xw,maxop2,'--','Color','k')%[0.5,0.5,0.5])
 xlabel('$x$','Interpreter','latex','FontSize',16)
 ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
 box on

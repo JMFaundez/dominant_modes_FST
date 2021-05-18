@@ -4,7 +4,7 @@ addpath('./matlab_script')
 make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.15 0.08], [0.08 0.04]);
 if ~make_it_tight, clear subplot;end
-casen = 1;
+casen = 2;
 
 switch casen
     case 1
@@ -13,8 +13,8 @@ switch casen
          ylimp200 = [0,0.25];
         ylimp300 = [0,2e-10];
     case 2
-        L = load('dominant_modes_05_lL_han.mat');
-        ininame = 'optw2_mode';
+        L = load('dominant_modes_05_lL_han_N34.mat');
+        ininame = 'optw_mode';
         ylimp200 = [0,0.2];
         ylimp300 = [0,6e-10];
     case 3
