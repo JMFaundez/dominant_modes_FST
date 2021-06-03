@@ -1,5 +1,5 @@
 clear all
-casen = 1;
+casen = 2;
 
 switch casen
     case 1
@@ -9,13 +9,19 @@ switch casen
         xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
         ymaxp = 3e-3;
         maxvp=1e-3;
+        colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    ];
     case 2
-        L = load('dominant_modes_05_lL_han_N2.mat');
+        L = load('dominant_modes_05_lL_han_N.mat');
         ydm = 0.045;
         ymid = 5e-3;
-        xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
-        ymaxp = 6.5e-3;
+        xiv =0.002+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015,0.02,0.02]; % large L
+        ymaxp = 5e-3;
         maxvp=1.2e-3;
+        colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    ];
     case 3
         L = load('dominant_modes_3_sL_hann.mat');
         ydm = 0.015;
@@ -59,8 +65,7 @@ xdth = L.xa;
 xdth = xdth(inx0:end);
 dth = real(dth(inx0:end));
 
-colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
-    [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
+
 
 % Bending function
 
@@ -73,7 +78,7 @@ S(ystar>=1)=1;
 
 %%
 count =0;
-for i =[1:8]
+for i = 7%[1:10]
     count= count +1;
     xind = find(x>=xiv(i),1,'first');
 xi = x(xind);
@@ -123,7 +128,7 @@ end
 %%
 
 figure(101)
-subplot(2,4,count)
+subplot(2,5,count)
 hold on
 plot(x(2:end),umax,'Color',colr(i,:),'LineWidth',1.5)
 plot(xw,maxop,'Color','k');%[0.5,0.5,0.5])
@@ -139,7 +144,7 @@ ylim([0,ymaxp])
 
 yop = y_opt;
 figure(201)
-subplot(2,4,count)
+subplot(2,5,count)
 hold on
 plot(abs(q(1:N,1)),yop,'r')
 plot(abs(q(N+1:2*N,1)),yop,'b')
@@ -154,7 +159,7 @@ xlim([0,maxvp])
 title(num2str(i))
 
 figure(301)
-subplot(2,4,count)
+subplot(2,5,count)
 hold on
 plot(wrapTo2Pi(angle(q(1:N,1))),yop,'r')
 plot(wrapTo2Pi(angle(q(N+1:2*N,1))),yop,'b')
