@@ -1,5 +1,6 @@
 clear all
 close all
+
 addpath('./matlab_script')
 make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.15 0.08], [0.08 0.04]);
@@ -29,8 +30,6 @@ switch casen
          ylimp200 = [0,0.3];
         ylimp300 = [0,3e-8];
 end
-
-
 uh = L.uh;
 vh = L.vh;
 wh = L.wh;
@@ -63,7 +62,6 @@ dth = real(dth(inx0:end));
 
 ny = length(n);
 nx = length(x);
-%%
 
 colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
     [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
@@ -72,20 +70,19 @@ colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4
 %ki = [length(xfvec),3,5,2,11,3,length(xfvec),length(xfvec)];
 clear lableg
 fig1 = figure(100);
-fig1.Position = [500 500 1500 500];
+fig1.Position = [500 500 700 400];
 fig2 = figure(200);
-fig2.Position = [500 500 900 300];
+fig2.Position = [500 500 300 400];
 fig3 = figure(300);
-fig3.Position = [500 500 900 300];
+fig3.Position = [500 500 300 400];
 fig4 = figure(400);
-fig4.Position = [500 500 900 400];
+fig4.Position = [500 500 300 400];
 hold on
-count = 0;
 
-for i=1:8
-    count = count+1;
+fig5 = figure(500);
+fig5.Position = [500 500 1200 400];
 
-
+i=3;
 
 O = load([ininame,num2str(i),'_difx.mat']);
 
@@ -93,6 +90,7 @@ xop = O.xw{1};
 xff = xop(1);
 xi = find(x>=xff,1,'first');
 xfvec = linspace(xop(1)*1.5,0.33,30);
+
 % DNS
 
 ui = squeeze(uh{i}(xi,:));
@@ -102,8 +100,11 @@ wi = squeeze(wh{i}(xi,:));
 uenvo = 0*O.xw{1};
 Edifv = zeros(size(xfvec));
 
-for k=1:length(xfvec)
+count = 0;
+count2 = 0;
 
+for k = 10%1:length(xfvec)%[10,20]
+count = count +1;
 % Opt
 [nn2,Nstations2] = size(O.q{k});
 N = nn2/4;
@@ -126,7 +127,7 @@ Eo =0.5*(abs(vo).^2+abs(wo).^2);
 
 scl = abs(a);
 %Ei = 0.5*(abs(ui).^2);
-Ei = 0.5*(0*abs(ui).^2+1*(abs(vi)).^2+1*(abs(wi)).^2);
+Ei = 0.5*(1*abs(ui).^2+0*(abs(vi)).^2+0*(abs(wi)).^2);
 
 
 
@@ -155,36 +156,11 @@ for j=1:length(uenvo)
 end
 
 figure(100)
-subplot(2,4,count)
 hold on
 plot(O.xw{k},qmax2*scl,'-','Color',[0.5 0.5 0.5])
 
 xio = find(O.xw{k}>=xfvec(k),1,'first');
-plot(xfvec(k),qmax2(xio)*scl,'*','Color','k')
-
-if k==1
-    xenv = O.xw{k}(1:xio);
-    uenv = qmax2(1:xio)*scl;
-else
-    xenv = [xenv,O.xw{k}(xio)];
-    uenv = [uenv;qmax2(xio)*scl];
-end
-
-%if k==ki(i)%length(xfvec)
-    %plot(O.xw{k},qmax2*scl,'--','Color',colr(count,:),'LineWidth',2)
-    %figure(4)
-    %subplot(1,2,2)
-    %hold on
-    %plot(O.xw{k},qmax2*scl,'--','Color',colr(count,:),'LineWidth',1.5)
-    %xlabel('$x$','Interpreter','latex','FontSize',16)
-    %ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
-    %xlim([0,0.33])
-    %ylim([0,3e-3])
-    %box on
-    %grid on
-%end
-
-end
+plot(O.xw{k}(xio),qmax2(xio)*scl,'*','Color','k')
 
 
 umax = zeros(nx,1);
@@ -197,82 +173,95 @@ for j=1:nx
     nind = find(n>=3*dthi,1,'first');
     umax(j) = sqrt(1)*max(abs(squeeze(uh{i}(j,1:nind))));
 end
-if i<=4
-    ipp = 1;
-else
-    ipp = 2;
-end
 
-figure(200)
 
-if ipp==1
-    subplot(1,2,1)
-    semilogy(xfvec,Edifv,'-o','DisplayName',num2str(i),'Color',colr(count,:))
-else
-    subplot(1,2,2)
-    semilogy(xfvec,Edifv,'-o','DisplayName',num2str(i),'Color',colr(count,:))
-end
-hold on
-box on
-grid on
-xlabel('$x_f$','Interpreter','latex','FontSize',14)
-ylabel('$|a|^2$','Interpreter','latex','FontSize',14)
-legend()
-ylim(ylimp300)
-xlim([0,0.33])
 
 figure(100)
-subplot(2,4,count)
-plot(x,umax-0*umax(xi),'Color',colr(count,:),'LineWidth',1.5)
+plot(x,umax-0*umax(xi),'Color',colr(i,:),'LineWidth',1.5)
 %plot(xenv,uenv,'--','Color',colr(count,:),'LineWidth',1.5)
+if count==1
+%plot(O.xw{k}(1),0,'.','MarkerSize',15,'Color',[0.5,0.5,0.5])
+%text(O.xw{k}(1)*1.2,0.0001,'$x_0$','Interpreter','latex','Color',[0.5,0.5,0.5],...
+%    'FontSize',18)
+end
+%plot(O.xw{k}(xio),0,'.','MarkerSize',15,'Color',[0.5,0.5,0.5]);
+%text(O.xw{k}(xio)*1.01,0.0001,'$x_f$','Interpreter','latex','Color',[0.5,0.5,0.5],...
+%    'FontSize',18)
 box on
 grid on
 xlim([0,0.33])
 %plot(x,umax-1*umax(xi),'r')
-title(num2str(i))
 xlabel('$x$','Interpreter','latex','FontSize',14)
 ylabel('$u_{max}$','Interpreter','latex','FontSize',14)
 
-
-
-figure(300)
-
-
-if ipp==1
-    subplot(1,2,1)
- plot(xfvec,errorE,'-o','Color',colr(count,:),'DisplayName',num2str(i))
-else
-    subplot(1,2,2)
-    plot(xfvec,errorE,'-o','Color',colr(count,:),'DisplayName',num2str(i))
-end
+if count==1
+figure(200)
 hold on
-xlabel('$x_f$','Interpreter','latex','FontSize',14)
-ylabel('$|a|^2/E_{dns}$','Interpreter','latex','FontSize',14)
+plot(abs(uo),n,'r-','DisplayName','$|\hat{u}|$')
+plot(abs(vo),n,'b-','DisplayName','$|\hat{v}|$')
+plot(abs(wo),n,'k-','DisplayName','$|\hat{w}|$')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
+ylabel('$y$','Interpreter','latex','FontSize',16)
+title('Optimal Disturbance','Interpreter','latex')
+%xlim([0,0.33])
+ylim([0,5e-3])
 box on
 grid on
-legend()
-ylim(ylimp200)
-xlim([0,0.33])
-%plot(xfvec,Edifv,'<-','Color',colr(count,:))
-
+legend('Interpreter','latex')
+figure(300)
+hold on
+plot(abs(uo)*abs(a),n,'r-','DisplayName','$|\hat{u}|$')
+plot(abs(vo)*abs(a),n,'b-','DisplayName','$|\hat{v}|$')
+plot(abs(wo)*abs(a),n,'k-','DisplayName','$|\hat{w}|$')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
+ylabel('$y$','Interpreter','latex','FontSize',16)
+title('Optimal$\cdot |a|$','Interpreter','latex')
+xlim([0,1.2e-3])
+ylim([0,5e-3])
+box on
+grid on
+legend('Interpreter','latex')
 
 figure(400)
-subplot(1,2,ipp)
-%subplot(1,1,1)
 hold on
-l1 = plot(x,umax-0*umax(xi),'Color',colr(count,:),'LineWidth',1.5,'DisplayName',num2str(i));
-plot(xenv,uenv,'k--')%,'Color',colr(count,:),'LineWidth',1.5)
-lableg(count) = l1;
-xlabel('$x$','Interpreter','latex','FontSize',16)
-ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
-xlim([0,0.33])
-%ylim([0,3e-3])
+plot(abs(ui),n,'r-','DisplayName','$|\hat{u}|$')
+plot(abs(vi),n,'b-','DisplayName','$|\hat{v}|$')
+plot(abs(wi),n,'k-','DisplayName','$|\hat{w}|$')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
+ylabel('$y$','Interpreter','latex','FontSize',16)
+title('DNS at $x_0$','Interpreter','latex')
+xlim([0,1.2e-3])
+ylim([0,5e-3])
 box on
 grid on
-legend(lableg)
-%yline(1,'--')
+legend('Interpreter','latex')
+
+
 
 end
+
+if k==5 || k==15 || k==20 || k==25
+count2 = count2+1;
+    figure(500)
+    subplot(1,4,count2)
+    hold on
+    xidns = find(x>xfvec(k),1,'first');
+    ufdns = squeeze(uh{i}(xidns,:));
+    pl1 =plot(abs(ufdns),n,'Color',colr(i,:),'DisplayName','DNS');
+    pl2 = plot(abs(O.q{k}(1:N,xio))*scl,yop,'Color',[0.5,0.5,0.5],'DisplayName','Optimal');
+    [umaxo,indmax] = max(abs(O.q{k}(1:N,xio)));
+    plot(umaxo*scl,yop(indmax),'k*')
+    xlabel('$|\hat{u}|$','Interpreter','latex','FontSize',16)
+    ylabel('$y$','Interpreter','latex','FontSize',16)
+    title(['$x=',num2str(xfvec(k),'%1.2f'),'$'],'Interpreter','latex')
+    ylim([0,5e-3])
+    box on
+grid on
+legend([pl1,pl2],'Interpreter','latex')
+end
+end 
+%yline(1,'--')
+
 
 
 
