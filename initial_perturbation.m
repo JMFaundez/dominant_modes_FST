@@ -1,5 +1,5 @@
 clear all
-casen = 2;
+casen = 1;
 
 switch casen
     case 1
@@ -74,7 +74,7 @@ S(ystar>=1)=1;
 %%
 count =0;
 
-figure()
+figure(1)
 for i =[1:8]
     count= count +1;
     xind = find(x>=xiv(i),1,'first');
@@ -85,7 +85,7 @@ u0 = squeeze(uh{i}(xind,:)).*S*1;
 v0 = squeeze(vh{i}(xind,:)).*S*1;
 w0 = squeeze(wh{i}(xind,:)).*S*1;
 
-
+figure(1)
 subplot(2,4,count)
 hold on
 plot(abs(u0),n,'r')

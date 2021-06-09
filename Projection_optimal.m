@@ -4,12 +4,16 @@ addpath('./matlab_script')
 make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.15 0.08], [0.08 0.04]);
 if ~make_it_tight, clear subplot;end
+<<<<<<< HEAD
 casen = 4;
+=======
+casen = 1;
+>>>>>>> 2fc79b3688b6d9639f8e2afb0bd9a79d88dc7a8a
 
 switch casen
     case 1
         L = load('dominant_modes_05_sL_hann.mat');
-        ininame = 'opt2_mode';
+        ininame = 'opt_mode';
          ylimp200 = [0,0.25];
         ylimp300 = [0,2e-10];
         colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
@@ -140,7 +144,11 @@ Eo =0.5*(abs(vo).^2+abs(wo).^2);
 
 scl = abs(a);
 %Ei = 0.5*(abs(ui).^2);
+<<<<<<< HEAD
 Ei = 0.5*(1*abs(ui).^2+1*(abs(vi)).^2+1*(abs(wi)).^2);
+=======
+Ei = 0.5*(0*abs(ui).^2+1*(abs(vi)).^2+1*(abs(wi)).^2);
+>>>>>>> 2fc79b3688b6d9639f8e2afb0bd9a79d88dc7a8a
 
 
 
