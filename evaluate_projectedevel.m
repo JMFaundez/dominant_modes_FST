@@ -1,5 +1,5 @@
 clear all
-casen = 2;
+casen = 4;
 
 switch casen
     case 1
@@ -16,12 +16,15 @@ switch casen
         L = load('dominant_modes_05_lL_han_N.mat');
         ydm = 0.045;
         ymid = 5e-3;
-        xiv =0.002+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015,0.02,0.02]; % large L
+        xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015,0.02,0.02,0.02,0.02]; % large L
         ymaxp = 5e-3;
         maxvp=1.2e-3;
-        colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
-    [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+        colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933] ;...
+    [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933]...
     ];
+
+        indm = [1:5,7:11];
+        colr = colr(indm,:);
     case 3
         L = load('dominant_modes_3_sL_hann.mat');
         ydm = 0.015;
@@ -30,12 +33,17 @@ switch casen
         ymaxp = 15e-3;
         maxvp=2.2e-3;
     case 4
-        L = load('dominant_modes_3_lL_han.mat');
+        L = load('dominant_modes_3_lL_han_N.mat');
         ydm = 0.045;
         ymid = 5e-3;
-        xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015]; % large L
+        xiv =0.02+0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015,0.02,0.02]; % large L
         ymaxp = 18e-3;
         maxvp=2.2e-3;
+         colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560] ;...
+    [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    ];
+
+        indm = [1:10];
     case 5
         L = load('dominant_modes_05_sL_N2.mat');
         ydm = 0.015;
@@ -51,21 +59,25 @@ switch casen
         ymaxp = 3e-3;
         maxvp=1e-3;
 end
-uh = L.uh;
-vh = L.vh;
-wh = L.wh;
+make_it_tight = true;
+subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.04],[0.1 0.05], [0.05 0.02]);
+if ~make_it_tight, clear subplot;end
+
+uh = L.uh(indm);
+vh = L.vh(indm);
+wh = L.wh(indm);
 x = L.X(:,1,1);
 n = L.N(1,:,1);
 ft = L.ft*2*pi;
 fz = L.fz*2*pi;
-modes = L.mo;
+modes = L.mo(indm);
 dth = L.dth; 
 xdth = L.xa;
 [x0dth, inx0] = min(abs(xdth));
 xdth = xdth(inx0:end);
 dth = real(dth(inx0:end));
 
-
+Nmo = length(modes);
 
 % Bending function
 
@@ -74,11 +86,11 @@ ystar = 1-(n-ydm)/(max(n)-ydm);
 S = 1./(1+exp(1./(ystar-1) +1./ystar));
 S(ystar<=0) = 0;
 S(ystar>=1)=1;
-
-
+fig1 = figure(101);
+fig1.Position = [500 500 1500 500];
 %%
 count =0;
-for i = 7%[1:10]
+for i = 1:Nmo
     count= count +1;
     xind = find(x>=xiv(i),1,'first');
 xi = x(xind);
@@ -128,7 +140,7 @@ end
 %%
 
 figure(101)
-subplot(2,5,count)
+subplot(2,Nmo/2,count)
 hold on
 plot(x(2:end),umax,'Color',colr(i,:),'LineWidth',1.5)
 plot(xw,maxop,'Color','k');%[0.5,0.5,0.5])
@@ -144,7 +156,7 @@ ylim([0,ymaxp])
 
 yop = y_opt;
 figure(201)
-subplot(2,5,count)
+subplot(2,Nmo/2,count)
 hold on
 plot(abs(q(1:N,1)),yop,'r')
 plot(abs(q(N+1:2*N,1)),yop,'b')
@@ -159,7 +171,7 @@ xlim([0,maxvp])
 title(num2str(i))
 
 figure(301)
-subplot(2,5,count)
+subplot(2,Nmo/2,count)
 hold on
 plot(wrapTo2Pi(angle(q(1:N,1))),yop,'r')
 plot(wrapTo2Pi(angle(q(N+1:2*N,1))),yop,'b')

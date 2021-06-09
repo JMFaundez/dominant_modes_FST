@@ -1,13 +1,13 @@
 clear all
-L = load('dominant_modes_05_lL_han_N.mat');
+L = load('dominant_modes_3_lL_han_N.mat');
 ft = L.ft*2*pi;
 fz = L.fz*2*pi;
 modes = L.mo;
-xiv = 0.02 + 0*[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015,0.02,0.02]; % large L
+xiv = 0.02 + zeros(length(modes),1) ;[0.05,0.04,0.02,0.01,0.05,0.025,0.02,0.015,0.02,0.02]; % large L
 %xiv =+0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
 N =150;
 q0=zeros(4*N,1)+1;
-
+%%
 for i=1:length(modes)
     mi = modes{i};
     beta = fz(mi(1));
@@ -25,7 +25,7 @@ for i=1:length(modes)
         y_opt{j} = y_optj;
 
     end
-    save(['optw_mode',num2str(i),'_difx.mat'],'xw','q','En','y_opt');
+    save(['optw3_mode',num2str(i),'_difx.mat'],'xw','q','En','y_opt');
 end
 
 

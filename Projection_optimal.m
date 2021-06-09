@@ -4,7 +4,7 @@ addpath('./matlab_script')
 make_it_tight = true;
 subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.15 0.08], [0.08 0.04]);
 if ~make_it_tight, clear subplot;end
-casen = 2;
+casen = 4;
 
 switch casen
     case 1
@@ -19,9 +19,11 @@ switch casen
         ininame = 'optw_mode';
         ylimp200 = [0,0.2];
         ylimp300 = [0,6e-10];
-        colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
-    [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+        colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933] ;...
+    [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933]...
     ];
+        indm = [1:5,7:11];
+        colr = colr(indm,:);
     case 3
         L = load('dominant_modes_3_sL_hann.mat');
         ininame = 'opt_mode';
@@ -29,22 +31,27 @@ switch casen
         ylimp300 = [0,6e-9];
         
     case 4
-        L = load('dominant_modes_3_lL_han.mat');
-        ininame = 'optw_mode';
-         ylimp200 = [0,0.3];
+        L = load('dominant_modes_3_lL_han_N.mat');
+        ininame = 'optw3_mode';
+         ylimp200 = [0,0.2];
         ylimp300 = [0,3e-8];
+        colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560] ;...
+    [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    ];
+
+        indm = [1:10];
 end
 
 
-uh = L.uh;
-vh = L.vh;
-wh = L.wh;
+uh = L.uh(indm);
+vh = L.vh(indm);
+wh = L.wh(indm);
 x = L.X(:,1,1);
 n = L.N(1,:,1);
 ft = L.ft*2*pi;
 fz = L.fz*2*pi;
-modes = L.mo;
-
+modes = L.mo(indm);
+Nmo = length(modes);
 
 dth = L.dth; 
 xdth = L.xa;
@@ -69,6 +76,9 @@ dth = real(dth(inx0:end));
 ny = length(n);
 nx = length(x);
 %%
+make_it_tight = true;
+subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.04],[0.1 0.05], [0.05 0.02]);
+if ~make_it_tight, clear subplot;end
 
 
 
@@ -86,12 +96,12 @@ fig4.Position = [500 500 900 400];
 hold on
 count = 0;
 
-for i=1:10
+for i=1:Nmo
     count = count+1;
 
 
 
-O = load([ininame,num2str(i),'_difx.mat']);
+O = load([ininame,num2str(indm(i)),'_difx.mat']);
 
 xop = O.xw{1};
 xff = xop(1);
@@ -130,7 +140,7 @@ Eo =0.5*(abs(vo).^2+abs(wo).^2);
 
 scl = abs(a);
 %Ei = 0.5*(abs(ui).^2);
-Ei = 0.5*(1*abs(ui).^2+0*(abs(vi)).^2+0*(abs(wi)).^2);
+Ei = 0.5*(1*abs(ui).^2+1*(abs(vi)).^2+1*(abs(wi)).^2);
 
 
 
@@ -159,7 +169,7 @@ for j=1:length(uenvo)
 end
 
 figure(100)
-subplot(2,5,count)
+subplot(2,Nmo/2,count)
 hold on
 plot(O.xw{k},qmax2*scl,'-','Color',[0.5 0.5 0.5])
 
@@ -201,7 +211,7 @@ for j=1:nx
     nind = find(n>=3*dthi,1,'first');
     umax(j) = sqrt(1)*max(abs(squeeze(uh{i}(j,1:nind))));
 end
-if i<=5
+if i<=Nmo/2
     ipp = 1;
 else
     ipp = 2;
@@ -226,7 +236,7 @@ ylim(ylimp300)
 xlim([0,0.33])
 
 figure(100)
-subplot(2,5,count)
+subplot(2,Nmo/2,count)
 plot(x,umax-0*umax(xi),'Color',colr(count,:),'LineWidth',1.5)
 %plot(xenv,uenv,'--','Color',colr(count,:),'LineWidth',1.5)
 box on
