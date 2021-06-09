@@ -1,5 +1,5 @@
 clear all
-casen = 4;
+casen = 2;
 
 switch casen
     case 1
@@ -23,7 +23,8 @@ switch casen
     [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933]...
     ];
 
-        indm = [1:5,7:11];
+        %indm = [1:5,7:11];
+        indm = [6,12];
         colr = colr(indm,:);
     case 3
         L = load('dominant_modes_3_sL_hann.mat');
