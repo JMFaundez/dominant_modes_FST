@@ -1,17 +1,18 @@
 clear all
-casen = 2;
+casen = 3;
 
 switch casen
     case 1
-        L = load('dominant_modes_05_sL_hann_N34.mat');
+        L = load('dominant_modes_05_sL_hann.mat');
         ydm = 0.015;
         ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
-        xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
+        xiv =0.01+0*[0.01,0.015,0.01,0.005,0.01,0.01,0.0075,0.015]; % small L
         ymaxp = 3e-3;
         maxvp=1e-3;
         colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
     [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
     ];
+        indm = [1:8];
     case 2
         L = load('dominant_modes_05_lL_han_N.mat');
         ydm = 0.045;
@@ -23,16 +24,20 @@ switch casen
     [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933]...
     ];
 
-        %indm = [1:5,7:11];
-        indm = [6,12];
+        indm = [1:5,7:11];
+        %indm = [6,12];
         colr = colr(indm,:);
     case 3
         L = load('dominant_modes_3_sL_hann.mat');
         ydm = 0.015;
         ymid = 3e-3; % value used to generate dns mesh 3e-3 small L, 5e-3 large L
         xiv =0.01+0*[0.01,0.015,0.024,0.02,0.01,0.01,0.018,0.025]; % small L
-        ymaxp = 15e-3;
+        ymaxp = 16.5e-3;
         maxvp=2.2e-3;
+        colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    ];
+        indm = [1:8];
     case 4
         L = load('dominant_modes_3_lL_han_N.mat');
         ydm = 0.045;
@@ -146,8 +151,12 @@ hold on
 plot(x(2:end),umax,'Color',colr(i,:),'LineWidth',1.5)
 plot(xw,maxop,'Color','k');%[0.5,0.5,0.5])
 plot(xw,maxop2,'--','Color','k')%[0.5,0.5,0.5])
-xlabel('$x$','Interpreter','latex','FontSize',16)
-ylabel('$u_{max}$','Interpreter','latex','FontSize',16)
+if i>Nmo/2
+xlabel('$x$','Interpreter','latex','FontSize',22)
+end
+if i==1 || i==Nmo/2+1
+ylabel('$|\hat{u}|_{max}$','Interpreter','latex','FontSize',22)
+end
 box on
 grid on
 title(num2str(i))

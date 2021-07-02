@@ -103,7 +103,7 @@ Edifv = zeros(size(xfvec));
 count = 0;
 count2 = 0;
 
-for k = 10%1:length(xfvec)%[10,20]
+for k = 1:length(xfvec)%[10,20]
 count = count +1;
 % Opt
 [nn2,Nstations2] = size(O.q{k});
@@ -191,50 +191,49 @@ box on
 grid on
 xlim([0,0.33])
 %plot(x,umax-1*umax(xi),'r')
-xlabel('$x$','Interpreter','latex','FontSize',14)
-ylabel('$u_{max}$','Interpreter','latex','FontSize',14)
-
+ylabel('$|\hat{u}|_{max}$','Interpreter','latex','FontSize',22)
+xlabel('$x$','Interpreter','latex','FontSize',22)
 if count==1
 figure(200)
 hold on
 plot(abs(uo),n,'r-','DisplayName','$|\hat{u}|$')
 plot(abs(vo),n,'b-','DisplayName','$|\hat{v}|$')
 plot(abs(wo),n,'k-','DisplayName','$|\hat{w}|$')
-xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
-ylabel('$y$','Interpreter','latex','FontSize',16)
-title('Optimal Disturbance','Interpreter','latex')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
+ylabel('$n$','Interpreter','latex','FontSize',22)
+title('Optimal','Interpreter','latex','FontSize',20)
 %xlim([0,0.33])
 ylim([0,5e-3])
 box on
 grid on
-legend('Interpreter','latex')
+legend('Interpreter','latex','FontSize',16)
 figure(300)
 hold on
 plot(abs(uo)*abs(a),n,'r-','DisplayName','$|\hat{u}|$')
 plot(abs(vo)*abs(a),n,'b-','DisplayName','$|\hat{v}|$')
 plot(abs(wo)*abs(a),n,'k-','DisplayName','$|\hat{w}|$')
-xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
-ylabel('$y$','Interpreter','latex','FontSize',16)
-title('Optimal$\cdot |a|$','Interpreter','latex')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
+ylabel('$n$','Interpreter','latex','FontSize',22)
+title('Optimal$\cdot |a|$','Interpreter','latex','FontSize',20)
 xlim([0,1.2e-3])
 ylim([0,5e-3])
 box on
 grid on
-legend('Interpreter','latex')
+legend('Interpreter','latex','FontSize',16)
 
 figure(400)
 hold on
 plot(abs(ui),n,'r-','DisplayName','$|\hat{u}|$')
 plot(abs(vi),n,'b-','DisplayName','$|\hat{v}|$')
 plot(abs(wi),n,'k-','DisplayName','$|\hat{w}|$')
-xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
-ylabel('$y$','Interpreter','latex','FontSize',16)
-title('DNS at $x_0$','Interpreter','latex')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
+ylabel('$n$','Interpreter','latex','FontSize',22)
+title('DNS','Interpreter','latex','FontSize',20)
 xlim([0,1.2e-3])
 ylim([0,5e-3])
 box on
 grid on
-legend('Interpreter','latex')
+legend('Interpreter','latex','FontSize',16)
 
 
 
@@ -251,9 +250,9 @@ count2 = count2+1;
     pl2 = plot(abs(O.q{k}(1:N,xio))*scl,yop,'Color',[0.5,0.5,0.5],'DisplayName','Optimal');
     [umaxo,indmax] = max(abs(O.q{k}(1:N,xio)));
     plot(umaxo*scl,yop(indmax),'k*')
-    xlabel('$|\hat{u}|$','Interpreter','latex','FontSize',16)
-    ylabel('$y$','Interpreter','latex','FontSize',16)
-    title(['$x=',num2str(xfvec(k),'%1.2f'),'$'],'Interpreter','latex')
+    xlabel('$|\hat{u}|$','Interpreter','latex','FontSize',22)
+    ylabel('$n$','Interpreter','latex','FontSize',22)
+    title(['$x=',num2str(xfvec(k),'%1.2f'),'$'],'Interpreter','latex','FontSize',20)
     ylim([0,5e-3])
     box on
 grid on
