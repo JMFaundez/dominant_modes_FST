@@ -1,5 +1,5 @@
 clear all
-close all
+%close all
 
 addpath('./matlab_script')
 make_it_tight = true;
@@ -71,17 +71,21 @@ colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4
 clear lableg
 fig1 = figure(100);
 fig1.Position = [500 500 700 400];
+clf
 fig2 = figure(200);
 fig2.Position = [500 500 300 400];
+clf
 fig3 = figure(300);
 fig3.Position = [500 500 300 400];
+clf
 fig4 = figure(400);
 fig4.Position = [500 500 300 400];
+clf
 hold on
 
 fig5 = figure(500);
 fig5.Position = [500 500 1200 400];
-
+clf
 i=3;
 
 O = load([ininame,num2str(i),'_difx.mat']);
@@ -193,12 +197,12 @@ xlim([0,0.33])
 %plot(x,umax-1*umax(xi),'r')
 ylabel('$|\hat{u}|_{max}$','Interpreter','latex','FontSize',22)
 xlabel('$x$','Interpreter','latex','FontSize',22)
-if count==1
+if count==5
 figure(200)
 hold on
-plot(abs(uo),n,'r-','DisplayName','$|\hat{u}|$')
-plot(abs(vo),n,'b-','DisplayName','$|\hat{v}|$')
-plot(abs(wo),n,'k-','DisplayName','$|\hat{w}|$')
+plot(abs(uo),n,'k-','DisplayName','$|\hat{u}|$')
+plot(abs(vo),n,'k--','DisplayName','$|\hat{v}|$')
+plot(abs(wo),n,'k-.','DisplayName','$|\hat{w}|$')
 xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
 ylabel('$n$','Interpreter','latex','FontSize',22)
 title('Optimal','Interpreter','latex','FontSize',20)
@@ -209,12 +213,12 @@ grid on
 legend('Interpreter','latex','FontSize',16)
 figure(300)
 hold on
-plot(abs(uo)*abs(a),n,'r-','DisplayName','$|\hat{u}|$')
-plot(abs(vo)*abs(a),n,'b-','DisplayName','$|\hat{v}|$')
-plot(abs(wo)*abs(a),n,'k-','DisplayName','$|\hat{w}|$')
+plot(abs(uo)*abs(a),n,'k-','DisplayName','$|\hat{u}|$')
+plot(abs(vo)*abs(a),n,'k--','DisplayName','$|\hat{v}|$')
+plot(abs(wo)*abs(a),n,'k-.','DisplayName','$|\hat{w}|$')
 xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
 ylabel('$n$','Interpreter','latex','FontSize',22)
-title('Optimal$\cdot |a|$','Interpreter','latex','FontSize',20)
+title('Optimal$\cdot |a_f|$','Interpreter','latex','FontSize',20)
 xlim([0,1.2e-3])
 ylim([0,5e-3])
 box on
@@ -223,9 +227,9 @@ legend('Interpreter','latex','FontSize',16)
 
 figure(400)
 hold on
-plot(abs(ui),n,'r-','DisplayName','$|\hat{u}|$')
-plot(abs(vi),n,'b-','DisplayName','$|\hat{v}|$')
-plot(abs(wi),n,'k-','DisplayName','$|\hat{w}|$')
+plot(abs(ui),n,'k-','DisplayName','$|\hat{u}|$')
+plot(abs(vi),n,'k--','DisplayName','$|\hat{v}|$')
+plot(abs(wi),n,'k-.','DisplayName','$|\hat{w}|$')
 xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
 ylabel('$n$','Interpreter','latex','FontSize',22)
 title('DNS','Interpreter','latex','FontSize',20)

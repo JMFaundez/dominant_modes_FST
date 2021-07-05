@@ -3,7 +3,7 @@ close all
 addpath('./matlab_script')
 
 
-casen = 2;
+casen = 4;
 
 switch casen
     case 1
@@ -146,7 +146,7 @@ Eo =0.5*(abs(vo).^2+abs(wo).^2);
 scl = abs(a);
 %Ei = 0.5*(abs(ui).^2);
 
-Ei = 0.5*(0*abs(ui).^2+1*(abs(vi)).^2+1*(abs(wi)).^2);
+Ei = 0.5*(1*abs(ui).^2+1*(abs(vi)).^2+1*(abs(wi)).^2);
 
 
 
@@ -298,14 +298,14 @@ legend(lableg)
 figure(500)
 
 if ipp==1
- plot(xfvec,errorE,'-o','Color',colr(count,:),'DisplayName',num2str(i))
+ plot(xfvec,errorE,'*-','Color',colr(count,:),'DisplayName',num2str(i),'MarkerSize',6)
 end
 hold on
 xlabel('$x_f$','Interpreter','latex','FontSize',14)
-ylabel('$|a|/\sqrt{E_{dns}}$','Interpreter','latex','FontSize',14)
+ylabel('$\mathcal{E}$','Interpreter','latex','FontSize',14)
 box on
 grid on
-legend()
+legend('Location','best')
 ylim(ylimp200)
 xlim([0,0.33])
 %plot(xfvec,Edifv,'<-','Color',colr(count,:))
