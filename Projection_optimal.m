@@ -1,41 +1,42 @@
 clear all
 close all
 addpath('./matlab_script')
-make_it_tight = true;
-subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.08],[0.15 0.08], [0.08 0.04]);
-if ~make_it_tight, clear subplot;end
 
-casen =2;
+
+casen = 4;
 
 switch casen
     case 1
         L = load('dominant_modes_05_sL_hann.mat');
         ininame = 'opt_mode';
-         ylimp200 = [0,0.25];
+         ylimp200 = [0,0.51];
         ylimp300 = [0,2e-10];
         colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
     [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
+        indm = [1:8];
     case 2
         L = load('dominant_modes_05_lL_han_N.mat');
         ininame = 'optw_mode';
-        ylimp200 = [0,0.2];
+        ylimp200 = [0,0.51];
         ylimp300 = [0,6e-10];
         colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933] ;...
     [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];[0.310,0.745,0.933]...
     ];
-        %indm = [1:5,7:11];
-        indm = [6,12];
+        indm = [1:5,7:11];
+        %indm = [6,12];
         colr = colr(indm,:);
     case 3
         L = load('dominant_modes_3_sL_hann.mat');
         ininame = 'opt_mode';
-         ylimp200 = [0,0.28];
+         ylimp200 = [0,0.51];
         ylimp300 = [0,6e-9];
-        
+        colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
+    [0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
+        indm = [1:8];
     case 4
         L = load('dominant_modes_3_lL_han_N.mat');
         ininame = 'optw3_mode';
-         ylimp200 = [0,0.2];
+         ylimp200 = [0,0.51];
         ylimp300 = [0,3e-8];
         colr=[[0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560] ;...
     [0.4660,0.6740,0.1880];[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560];...
@@ -95,6 +96,8 @@ fig3 = figure(300);
 fig3.Position = [500 500 900 300];
 fig4 = figure(400);
 fig4.Position = [500 500 900 400];
+fig5 = figure(500);
+fig5.Position = [500 500 500 300];
 hold on
 count = 0;
 
@@ -173,6 +176,7 @@ for j=1:length(uenvo)
 end
 
 figure(100)
+subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.04],[0.1 0.05], [0.05 0.02]);
 subplot(2,Nmo/2,count)
 hold on
 plot(O.xw{k},qmax2*scl,'-','Color',[0.5 0.5 0.5])
@@ -204,7 +208,7 @@ end
 
 end
 
-
+errorE = sqrt(errorE);
 umax = zeros(nx,1);
 
 for j=1:nx
@@ -240,6 +244,7 @@ ylim(ylimp300)
 xlim([0,0.33])
 
 figure(100)
+subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.04],[0.1 0.05], [0.05 0.02]);
 subplot(2,Nmo/2,count)
 plot(x,umax-0*umax(xi),'Color',colr(count,:),'LineWidth',1.5)
 %plot(xenv,uenv,'--','Color',colr(count,:),'LineWidth',1.5)
@@ -254,7 +259,7 @@ ylabel('$u_{max}$','Interpreter','latex','FontSize',14)
 
 
 figure(300)
-
+subplot = @(m,n,p) subtightplot(m,n,p,[0.12 0.1],[0.15 0.04], [0.09 0.02]);
 
 if ipp==1
     subplot(1,2,1)
@@ -265,7 +270,7 @@ else
 end
 hold on
 xlabel('$x_f$','Interpreter','latex','FontSize',14)
-ylabel('$|a|^2/E_{dns}$','Interpreter','latex','FontSize',14)
+ylabel('$|a|/\sqrt{E_{dns}}$','Interpreter','latex','FontSize',14)
 box on
 grid on
 legend()
@@ -289,6 +294,25 @@ box on
 grid on
 legend(lableg)
 %yline(1,'--')
+
+figure(500)
+
+if ipp==1
+ plot(xfvec,errorE,'*-','Color',colr(count,:),'DisplayName',num2str(i),'MarkerSize',6)
+end
+hold on
+xlabel('$x_f$','Interpreter','latex','FontSize',14)
+ylabel('$\mathcal{E}$','Interpreter','latex','FontSize',14)
+box on
+grid on
+legend('Location','best')
+ylim(ylimp200)
+xlim([0,0.33])
+%plot(xfvec,Edifv,'<-','Color',colr(count,:))
+
+
+
+
 
 end
 

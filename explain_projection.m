@@ -1,5 +1,5 @@
 clear all
-close all
+%close all
 
 addpath('./matlab_script')
 make_it_tight = true;
@@ -71,17 +71,21 @@ colr=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4
 clear lableg
 fig1 = figure(100);
 fig1.Position = [500 500 700 400];
+clf
 fig2 = figure(200);
 fig2.Position = [500 500 300 400];
+clf
 fig3 = figure(300);
 fig3.Position = [500 500 300 400];
+clf
 fig4 = figure(400);
 fig4.Position = [500 500 300 400];
+clf
 hold on
 
 fig5 = figure(500);
 fig5.Position = [500 500 1200 400];
-
+clf
 i=3;
 
 O = load([ininame,num2str(i),'_difx.mat']);
@@ -191,50 +195,49 @@ box on
 grid on
 xlim([0,0.33])
 %plot(x,umax-1*umax(xi),'r')
-xlabel('$x$','Interpreter','latex','FontSize',14)
-ylabel('$u_{max}$','Interpreter','latex','FontSize',14)
-
-if count==1
+ylabel('$|\hat{u}|_{max}$','Interpreter','latex','FontSize',22)
+xlabel('$x$','Interpreter','latex','FontSize',22)
+if count==5
 figure(200)
 hold on
-plot(abs(uo),n,'r-','DisplayName','$|\hat{u}|$')
-plot(abs(vo),n,'b-','DisplayName','$|\hat{v}|$')
-plot(abs(wo),n,'k-','DisplayName','$|\hat{w}|$')
-xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
-ylabel('$y$','Interpreter','latex','FontSize',16)
-title('Optimal Disturbance','Interpreter','latex')
+plot(abs(uo),n,'k-','DisplayName','$|\hat{u}|$')
+plot(abs(vo),n,'k--','DisplayName','$|\hat{v}|$')
+plot(abs(wo),n,'k-.','DisplayName','$|\hat{w}|$')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
+ylabel('$n$','Interpreter','latex','FontSize',22)
+title('Optimal','Interpreter','latex','FontSize',20)
 %xlim([0,0.33])
 ylim([0,5e-3])
 box on
 grid on
-legend('Interpreter','latex')
+legend('Interpreter','latex','FontSize',16)
 figure(300)
 hold on
-plot(abs(uo)*abs(a),n,'r-','DisplayName','$|\hat{u}|$')
-plot(abs(vo)*abs(a),n,'b-','DisplayName','$|\hat{v}|$')
-plot(abs(wo)*abs(a),n,'k-','DisplayName','$|\hat{w}|$')
-xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
-ylabel('$y$','Interpreter','latex','FontSize',16)
-title('Optimal$\cdot |a_f|$','Interpreter','latex')
+plot(abs(uo)*abs(a),n,'k-','DisplayName','$|\hat{u}|$')
+plot(abs(vo)*abs(a),n,'k--','DisplayName','$|\hat{v}|$')
+plot(abs(wo)*abs(a),n,'k-.','DisplayName','$|\hat{w}|$')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
+ylabel('$n$','Interpreter','latex','FontSize',22)
+title('Optimal$\cdot |a_f|$','Interpreter','latex','FontSize',20)
 xlim([0,1.2e-3])
 ylim([0,5e-3])
 box on
 grid on
-legend('Interpreter','latex')
+legend('Interpreter','latex','FontSize',16)
 
 figure(400)
 hold on
-plot(abs(ui),n,'r-','DisplayName','$|\hat{u}|$')
-plot(abs(vi),n,'b-','DisplayName','$|\hat{v}|$')
-plot(abs(wi),n,'k-','DisplayName','$|\hat{w}|$')
-xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
-ylabel('$y$','Interpreter','latex','FontSize',16)
-title('DNS at $x_0$','Interpreter','latex')
+plot(abs(ui),n,'k-','DisplayName','$|\hat{u}|$')
+plot(abs(vi),n,'k--','DisplayName','$|\hat{v}|$')
+plot(abs(wi),n,'k-.','DisplayName','$|\hat{w}|$')
+xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',22)
+ylabel('$n$','Interpreter','latex','FontSize',22)
+title('DNS','Interpreter','latex','FontSize',20)
 xlim([0,1.2e-3])
 ylim([0,5e-3])
 box on
 grid on
-legend('Interpreter','latex')
+legend('Interpreter','latex','FontSize',16)
 
 
 
@@ -251,9 +254,9 @@ count2 = count2+1;
     pl2 = plot(abs(O.q{k}(1:N,xio))*scl,yop,'Color',[0.5,0.5,0.5],'DisplayName','Optimal');
     [umaxo,indmax] = max(abs(O.q{k}(1:N,xio)));
     plot(umaxo*scl,yop(indmax),'k*')
-    xlabel('$|\hat{u}|$','Interpreter','latex','FontSize',16)
-    ylabel('$y$','Interpreter','latex','FontSize',16)
-    title(['$x=',num2str(xfvec(k),'%1.2f'),'$'],'Interpreter','latex')
+    xlabel('$|\hat{u}|$','Interpreter','latex','FontSize',22)
+    ylabel('$n$','Interpreter','latex','FontSize',22)
+    title(['$x=',num2str(xfvec(k),'%1.2f'),'$'],'Interpreter','latex','FontSize',20)
     ylim([0,5e-3])
     box on
 grid on
