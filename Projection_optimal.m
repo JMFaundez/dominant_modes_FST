@@ -3,7 +3,7 @@ close all
 addpath('./matlab_script')
 
 
-casen = 1;
+casen = 3;
 
 switch casen
     case 1
@@ -26,7 +26,7 @@ switch casen
         %indm = [6,12];
         colr = colr(indm,:);
     case 3
-        L = load('dominant_modes_3_sL_hann.mat');
+        L = load('dominant_modes_3_sL_han_N.mat');
         ininame = 'opt_mode';
          ylimp200 = [0,0.51];
         ylimp300 = [0,6e-9];
