@@ -103,7 +103,7 @@ Edifv = zeros(size(xfvec));
 count = 0;
 count2 = 0;
 
-for k = 10%1:length(xfvec)%[10,20]
+for k = 13%1:length(xfvec)%[10,20]
 count = count +1;
 % Opt
 [nn2,Nstations2] = size(O.q{k});
@@ -215,7 +215,7 @@ plot(abs(vo)*abs(a),n,'b-','DisplayName','$|\hat{v}|$')
 plot(abs(wo)*abs(a),n,'k-','DisplayName','$|\hat{w}|$')
 xlabel('$|\hat{u}|,|\hat{v}|,|\hat{w}|$','Interpreter','latex','FontSize',16)
 ylabel('$y$','Interpreter','latex','FontSize',16)
-title('Optimal$\cdot |a|$','Interpreter','latex')
+title('Optimal$\cdot |a_f|$','Interpreter','latex')
 xlim([0,1.2e-3])
 ylim([0,5e-3])
 box on
