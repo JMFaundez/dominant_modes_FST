@@ -3,11 +3,11 @@ close all
 addpath('./matlab_script')
 
 
-casen = 4;
+casen = 1;
 
 switch casen
     case 1
-        L = load('dominant_modes_05_sL_hann.mat');
+        L = load('dominant_modes_05_sL_han_N.mat');
         ininame = 'opt_mode';
          ylimp200 = [0,0.51];
         ylimp300 = [0,2e-10];
